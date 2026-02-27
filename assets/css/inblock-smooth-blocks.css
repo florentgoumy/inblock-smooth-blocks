@@ -1,0 +1,164 @@
+/* =========================================
+   Inblock Smooth Blocks – Micro-interactions
+   ========================================= */
+
+/* ---------- Button: shared base (Firefox-safe) ---------- */
+.wp-block-button.inb-arrow-right .wp-element-button,
+.wp-block-button.inb-arrow-left .wp-element-button,
+.wp-block-button.inb-arrow-up .wp-element-button,
+.wp-block-button.inb-arrow-down .wp-element-button,
+.wp-block-button.inb-arrow-external .wp-element-button{
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
+  white-space: nowrap;
+  min-width: max-content;
+}
+
+/* Arrow Right (→) */
+.wp-block-button.inb-arrow-right .wp-element-button::after{
+  content: "→";
+  display: inline-block;
+  color: var(--inb-arrow-color, currentColor);
+  transition: transform .2s ease;
+}
+.wp-block-button.inb-arrow-right .wp-element-button:hover::after,
+.wp-block-button.inb-arrow-right .wp-element-button:focus-visible::after{
+  transform: translateX(4px);
+}
+
+/* Arrow Left (←) */
+.wp-block-button.inb-arrow-left .wp-element-button::before{
+  content: "←";
+  display: inline-block;
+  color: var(--inb-arrow-color, currentColor);
+  transition: transform .2s ease;
+}
+.wp-block-button.inb-arrow-left .wp-element-button:hover::before,
+.wp-block-button.inb-arrow-left .wp-element-button:focus-visible::before{
+  transform: translateX(-4px);
+}
+
+/* Arrow Up (↑) - icon on the right */
+.wp-block-button.inb-arrow-up .wp-element-button::after{
+  content: "↑";
+  display: inline-block;
+  color: var(--inb-arrow-color, currentColor);
+  transition: transform .2s ease;
+}
+.wp-block-button.inb-arrow-up .wp-element-button:hover::after,
+.wp-block-button.inb-arrow-up .wp-element-button:focus-visible::after{
+  transform: translateY(-4px);
+}
+
+/* Arrow Down (↓) - icon on the right */
+.wp-block-button.inb-arrow-down .wp-element-button::after{
+  content: "↓";
+  display: inline-block;
+  color: var(--inb-arrow-color, currentColor);
+  transition: transform .2s ease;
+}
+.wp-block-button.inb-arrow-down .wp-element-button:hover::after,
+.wp-block-button.inb-arrow-down .wp-element-button:focus-visible::after{
+  transform: translateY(4px);
+}
+
+/* Arrow External (↗) */
+.wp-block-button.inb-arrow-external .wp-element-button::after{
+  content: "↗";
+  display: inline-block;
+  color: var(--inb-arrow-color, currentColor);
+  transition: transform .2s ease;
+}
+.wp-block-button.inb-arrow-external .wp-element-button:hover::after,
+.wp-block-button.inb-arrow-external .wp-element-button:focus-visible::after{
+  transform: translate(3px,-3px);
+}
+
+/* Respect reduced motion for button icons */
+@media (prefers-reduced-motion: reduce){
+  .wp-block-button.inb-arrow-right .wp-element-button::after,
+  .wp-block-button.inb-arrow-left .wp-element-button::before,
+  .wp-block-button.inb-arrow-up .wp-element-button::after,
+  .wp-block-button.inb-arrow-down .wp-element-button::after,
+  .wp-block-button.inb-arrow-external .wp-element-button::after{
+    transition: none;
+  }
+
+  .wp-block-button.inb-arrow-right .wp-element-button:hover::after,
+  .wp-block-button.inb-arrow-right .wp-element-button:focus-visible::after,
+  .wp-block-button.inb-arrow-left .wp-element-button:hover::before,
+  .wp-block-button.inb-arrow-left .wp-element-button:focus-visible::before,
+  .wp-block-button.inb-arrow-up .wp-element-button:hover::after,
+  .wp-block-button.inb-arrow-up .wp-element-button:focus-visible::after,
+  .wp-block-button.inb-arrow-down .wp-element-button:hover::after,
+  .wp-block-button.inb-arrow-down .wp-element-button:focus-visible::after,
+  .wp-block-button.inb-arrow-external .wp-element-button:hover::after,
+  .wp-block-button.inb-arrow-external .wp-element-button:focus-visible::after{
+    transform: none;
+  }
+}
+
+
+/* =========================================
+   Navigation: Smooth caret rotation effect
+   ========================================= */
+
+.wp-block-navigation.inb-smooth-rotation
+.wp-block-navigation-submenu__toggle svg{
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+  transform-origin: 50% 50%;
+}
+
+/* Rotate when expanded (matches WP aria-expanded behavior) */
+.wp-block-navigation.inb-smooth-rotation
+.wp-block-navigation-submenu__toggle[aria-expanded="true"] svg{
+  transform: rotate(180deg);
+}
+
+/* Optional: also rotate on hover (desktop hover-open menus) */
+.wp-block-navigation.inb-smooth-rotation
+.wp-block-navigation-item:hover > .wp-block-navigation-submenu__toggle svg{
+  transform: rotate(180deg);
+}
+
+/* Rotate on keyboard focus (accessibility feedback) */
+.wp-block-navigation.inb-smooth-rotation
+.wp-block-navigation-submenu__toggle:focus-visible svg{
+  transform: rotate(180deg);
+}
+
+/* Respect reduced motion for navigation icon */
+@media (prefers-reduced-motion: reduce){
+  .wp-block-navigation.inb-smooth-rotation
+  .wp-block-navigation-submenu__toggle svg{
+    transition: none;
+  }
+}
+
+
+/* =========================================
+   Underline Reveal (Links)
+   - Works on Group blocks
+   - Color can be customized via --inb-underline-color
+   ========================================= */
+
+.wp-block-group.inb-underline-reveal a:not(.wp-element-button){
+  text-decoration: none;
+  background-image: linear-gradient(var(--inb-underline-color, currentColor), var(--inb-underline-color, currentColor));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  transition: background-size .3s cubic-bezier(.4,0,.2,1);
+}
+
+.wp-block-group.inb-underline-reveal a:not(.wp-element-button):hover,
+.wp-block-group.inb-underline-reveal a:not(.wp-element-button):focus-visible{
+  background-size: 100% 2px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .wp-block-group.inb-underline-reveal a:not(.wp-element-button){
+    transition: none;
+  }
+}
