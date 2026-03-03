@@ -184,7 +184,8 @@
   position: relative;
 }
 
-.wp-block-button.inb-border-reveal .wp-element-button::before{
+/* Use ::after to avoid clashing with themes that already use ::before on buttons */
+.wp-block-button.inb-border-reveal .wp-element-button::after{
   content: "";
   position: absolute;
 
@@ -203,18 +204,18 @@
   transition: transform .2s ease, opacity .2s ease;
 }
 
-.wp-block-button.inb-border-reveal .wp-element-button:hover::before,
-.wp-block-button.inb-border-reveal .wp-element-button:focus-visible::before{
+.wp-block-button.inb-border-reveal .wp-element-button:hover::after,
+.wp-block-button.inb-border-reveal .wp-element-button:focus-visible::after{
   opacity: 1;
   transform: scaleX(1);
 }
 
 @media (prefers-reduced-motion: reduce){
-  .wp-block-button.inb-border-reveal .wp-element-button::before{
+  .wp-block-button.inb-border-reveal .wp-element-button::after{
     transition: none;
   }
-  .wp-block-button.inb-border-reveal .wp-element-button:hover::before,
-  .wp-block-button.inb-border-reveal .wp-element-button:focus-visible::before{
+  .wp-block-button.inb-border-reveal .wp-element-button:hover::after,
+  .wp-block-button.inb-border-reveal .wp-element-button:focus-visible::after{
     transform: none;
   }
 }
@@ -234,7 +235,7 @@
 
 /* When submenu is open (hover or aria-expanded) */
 .wp-block-navigation.inb-submenu-soft-slide .wp-block-navigation-item:hover > .wp-block-navigation__submenu-container,
-.wp-block-navigation.inb-submenu-soft-slide .wp-block-navigation-submenu[aria-expanded="true"] > .wp-block-navigation__submenu-container{
+.wp-block-navigation.inb-submenu-soft-slide .wp-block-navigation-submenu__toggle[aria-expanded="true"] + .wp-block-navigation__submenu-container{
   opacity: 1;
   transform: translateY(0);
 }
@@ -244,7 +245,7 @@
     transition: none;
   }
   .wp-block-navigation.inb-submenu-soft-slide .wp-block-navigation-item:hover > .wp-block-navigation__submenu-container,
-  .wp-block-navigation.inb-submenu-soft-slide .wp-block-navigation-submenu[aria-expanded="true"] > .wp-block-navigation__submenu-container{
+  .wp-block-navigation.inb-submenu-soft-slide .wp-block-navigation-submenu__toggle[aria-expanded="true"] + .wp-block-navigation__submenu-container{
     transform: none;
   }
 }
