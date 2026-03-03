@@ -1,0 +1,56 @@
+# Inblock Smooth Blocks translation template
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Adds a subtle animated icon."
+msgstr ""
+
+msgid "Animated icon"
+msgstr ""
+
+msgid "Animates an underline on links inside this group."
+msgstr ""
+
+msgid "Animates the submenu caret rotation instead of flipping instantly."
+msgstr ""
+
+msgid "Arrow down (↓)"
+msgstr ""
+
+msgid "Arrow external (↗)"
+msgstr ""
+
+msgid "Arrow left (←)"
+msgstr ""
+
+msgid "Arrow right (→)"
+msgstr ""
+
+msgid "Arrow up (↑)"
+msgstr ""
+
+msgid "Defaults to current text color if not set."
+msgstr ""
+
+msgid "Defaults to the button text color if not set."
+msgstr ""
+
+msgid "Icon color"
+msgstr ""
+
+msgid "Inblock effects"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "Smooth rotation"
+msgstr ""
+
+msgid "Underline color"
+msgstr ""
+
+msgid "Underline reveal"
+msgstr ""

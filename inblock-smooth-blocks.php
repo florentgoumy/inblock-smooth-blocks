@@ -23,6 +23,7 @@ final class Inblock_Smooth_Blocks {
 	const HANDLE_EDITOR = 'inblock-smooth-blocks-editor';
 
 	public static function init(): void {
+		add_action( 'init', [ __CLASS__, 'load_textdomain' ] );
 		add_action( 'init', [ __CLASS__, 'register_assets' ] );
 
 		// Load CSS on both frontend and editor
@@ -33,6 +34,10 @@ final class Inblock_Smooth_Blocks {
 
 		// Ensure Navigation class exists in FRONTEND rendered HTML (server-side injection)
 		add_filter( 'render_block_core/navigation', [ __CLASS__, 'inject_navigation_class' ], 10, 2 );
+	}
+
+	public static function load_textdomain(): void {
+		load_plugin_textdomain( 'inblock-smooth-blocks', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 
 	public static function register_assets(): void {
@@ -81,7 +86,22 @@ final class Inblock_Smooth_Blocks {
 			return $block_content;
 		}
 
-		// Add class to <nav class="... wp-block-navigation ..."> element (first match only)
+		// Prefer a structured injection when available (WP 6.2+)
+		if ( class_exists( 'WP_HTML_Tag_Processor' ) ) {
+			$processor = new WP_HTML_Tag_Processor( $block_content );
+
+			while ( $processor->next_tag( [ 'tag_name' => 'nav' ] ) ) {
+				$class = $processor->get_attribute( 'class' ) ?? '';
+				if ( false === strpos( $class, 'wp-block-navigation' ) ) {
+					continue;
+				}
+
+				$processor->add_class( 'inb-smooth-rotation' );
+				return $processor->get_updated_html();
+			}
+		}
+
+		// Fallback: add class to <nav class="... wp-block-navigation ..."> element (first match only)
 		$block_content = preg_replace(
 			'/(<nav\b[^>]*class=")([^"]*\bwp-block-navigation\b[^"]*)(")/i',
 			'$1$2 inb-smooth-rotation$3',

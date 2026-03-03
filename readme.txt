@@ -2,7 +2,7 @@
 Contributors: inblock
 Tags: gutenberg, blocks, button, navigation, animation, micro-interactions, ui
 Requires at least: 6.0
-Tested up to: 6.5
+Tested up to: 6.8
 Requires PHP: 7.4
 Stable tag: 0.8.0
 License: GPLv2 or later
@@ -41,6 +41,10 @@ https://www.inblock.net
 3. Edit supported blocks.
 4. In the block settings sidebar, open the "Inblock effects" panel under the Styles tab.
 5. Enable the desired effect.
+
+== Privacy ==
+
+This plugin does not collect, store, or transmit any personal data.
 
 == Frequently Asked Questions ==
 
