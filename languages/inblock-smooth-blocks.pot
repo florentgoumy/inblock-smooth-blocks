@@ -37,6 +37,9 @@ msgstr ""
 msgid "Border reveal"
 msgstr ""
 
+msgid "Border width (px)"
+msgstr ""
+
 msgid "Defaults to current text color if not set."
 msgstr ""
 
@@ -61,9 +64,6 @@ msgstr ""
 msgid "Reveals a subtle border on hover/focus."
 msgstr ""
 
-msgid "Scales the image slightly on hover/focus (1.02)."
-msgstr ""
-
 msgid "Smooth rotation"
 msgstr ""
 
@@ -71,9 +71,6 @@ msgid "Submenu soft slide"
 msgstr ""
 
 msgid "Submenus fade in and slide slightly (desktop dropdown)."
-msgstr ""
-
-msgid "Subtle scale"
 msgstr ""
 
 msgid "Underline color"

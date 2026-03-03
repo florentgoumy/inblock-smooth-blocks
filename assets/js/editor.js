@@ -2,7 +2,7 @@
 	const { addFilter } = wp.hooks;
 	const { createHigherOrderComponent } = wp.compose;
 	const { InspectorControls } = wp.blockEditor;
-	const { PanelBody, SelectControl, ToggleControl } = wp.components;
+	const { PanelBody, SelectControl, ToggleControl, RangeControl } = wp.components;
 	const { __ } = wp.i18n;
 	const { createElement: el, Fragment } = wp.element;
 
@@ -13,13 +13,14 @@
 	const BUTTON_BLOCK = 'core/button';
 	const NAV_BLOCK = 'core/navigation';
 	const GROUP_BLOCK = 'core/group';
-	const IMAGE_BLOCK = 'core/image';
+	// const IMAGE_BLOCK = 'core/image';
 
 	// Attributes
 	const ATTR_ARROW = 'inbArrow';
 	const ATTR_ARROW_COLOR = 'inbArrowColor';
 	const ATTR_BUTTON_BORDER_REVEAL = 'inbButtonBorderReveal';
 	const ATTR_BUTTON_BORDER_COLOR = 'inbButtonBorderColor';
+	const ATTR_BUTTON_BORDER_WIDTH = 'inbButtonBorderWidth';
 
 	const ATTR_NAV_SMOOTH_ROTATION = 'inbSmoothRotation';
 	const ATTR_NAV_SUBMENU_SOFT_SLIDE = 'inbNavSubmenuSoftSlide';
@@ -28,7 +29,7 @@
 	const ATTR_UNDERLINE_COLOR = 'inbUnderlineColor';
 	const ATTR_UNDERLINE_KEEP_DECORATION = 'inbUnderlineKeepDecoration';
 
-	const ATTR_IMAGE_SUBTLE_SCALE = 'inbImageSubtleScale';
+	// const ATTR_IMAGE_SUBTLE_SCALE = 'inbImageSubtleScale';
 
 	// UI options
 	const ARROW_OPTIONS = [
@@ -78,6 +79,7 @@
 				[ ATTR_ARROW_COLOR ]: { type: 'string', default: '' },
 				[ ATTR_BUTTON_BORDER_REVEAL ]: { type: 'boolean', default: false },
 				[ ATTR_BUTTON_BORDER_COLOR ]: { type: 'string', default: '' },
+				[ ATTR_BUTTON_BORDER_WIDTH ]: { type: 'number', default: 1 },
 			} );
 			return settings;
 		}
@@ -101,13 +103,6 @@
 			return settings;
 		}
 
-		// Image: subtle scale
-		if ( name === IMAGE_BLOCK ) {
-			settings.attributes = Object.assign( {}, settings.attributes, {
-				[ ATTR_IMAGE_SUBTLE_SCALE ]: { type: 'boolean', default: false },
-			} );
-			return settings;
-		}
 
 		return settings;
 	}
@@ -125,6 +120,7 @@
 				const arrowColor = ( props.attributes && props.attributes[ ATTR_ARROW_COLOR ] ) || '';
 				const borderReveal = !!( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_REVEAL ] );
 				const borderColor = ( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_COLOR ] ) || '';
+				const borderWidth = ( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_WIDTH ] ) || 1;
 				const palette = getThemePalette();
 
 				return el(
@@ -179,8 +175,8 @@
 								checked: borderReveal,
 								onChange: ( val ) => {
 									props.setAttributes( { [ ATTR_BUTTON_BORDER_REVEAL ]: !!val } );
-									if ( !val ) props.setAttributes( { [ ATTR_BUTTON_BORDER_COLOR ]: '' } );
-								},
+									if ( !val ) props.setAttributes( { [ ATTR_BUTTON_BORDER_COLOR ]: '', [ ATTR_BUTTON_BORDER_WIDTH ]: 1 } );
+								}, 
 								help: __( 'Reveals a subtle border on hover/focus.', 'inblock-smooth-blocks' ),
 							} ),
 
@@ -199,6 +195,13 @@
 										onChange: ( val ) => props.setAttributes( { [ ATTR_BUTTON_BORDER_COLOR ]: val || '' } ),
 										disableCustomColors: false,
 										clearable: true,
+									} ),
+									el( RangeControl, {
+										label: __( 'Border width (px)', 'inblock-smooth-blocks' ),
+										value: borderWidth,
+										min: 1,
+										max: 6,
+										onChange: ( val ) => props.setAttributes( { [ ATTR_BUTTON_BORDER_WIDTH ]: val } ),
 									} ),
 									el(
 										'div',
@@ -302,31 +305,6 @@
 				);
 			}
 
-			// Image UI
-			if ( props.name === IMAGE_BLOCK ) {
-				const subtleScale = !!( props.attributes && props.attributes[ ATTR_IMAGE_SUBTLE_SCALE ] );
-
-				return el(
-					Fragment,
-					{},
-					el( BlockEdit, props ),
-					el(
-						InspectorControls,
-						{ group: 'styles' },
-						el(
-							PanelBody,
-							{ title: __( 'Inblock effects', 'inblock-smooth-blocks' ), initialOpen: true },
-							el( ToggleControl, {
-								label: __( 'Subtle scale', 'inblock-smooth-blocks' ),
-								checked: subtleScale,
-								onChange: ( val ) => props.setAttributes( { [ ATTR_IMAGE_SUBTLE_SCALE ]: !!val } ),
-								help: __( 'Scales the image slightly on hover/focus (1.02).', 'inblock-smooth-blocks' ),
-							} )
-						)
-					)
-				);
-			}
-
 			return el( BlockEdit, props );
 		};
 	}, 'withInspectorControls' );
@@ -357,7 +335,8 @@
 
 				const styleVars = Object.assign( {},
 					arrowColor ? { '--inb-arrow-color': arrowColor } : {},
-					borderColor ? { '--inb-border-color': borderColor } : {}
+					borderColor ? { '--inb-border-color': borderColor } : {},
+					borderReveal ? { '--inb-border-width': ( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_WIDTH ] ) || 1 } : {}
 				);
 
 				const wrapperProps = Object.assign( {}, existingWrapperProps, {
@@ -378,15 +357,6 @@
 					smoothRotation ? 'inb-smooth-rotation' : '',
 					submenuSoftSlide ? 'inb-submenu-soft-slide' : '',
 				].filter( Boolean ).join( ' ' );
-				return el( BlockListBlock, Object.assign( {}, props, { className } ) );
-			}
-
-			// Image: subtle scale (editor preview)
-			if ( props.name === IMAGE_BLOCK ) {
-				const subtleScale = !!( props.attributes && props.attributes[ ATTR_IMAGE_SUBTLE_SCALE ] );
-				if ( !subtleScale ) return el( BlockListBlock, props );
-
-				const className = [ props.className, 'inb-image-subtle-scale' ].filter( Boolean ).join( ' ' );
 				return el( BlockListBlock, Object.assign( {}, props, { className } ) );
 			}
 
@@ -442,9 +412,11 @@
 			const arrowColor = ( attributes && attributes[ ATTR_ARROW_COLOR ] ) || '';
 			const borderColor = ( attributes && attributes[ ATTR_BUTTON_BORDER_COLOR ] ) || '';
 
+			const borderWidth = ( attributes && attributes[ ATTR_BUTTON_BORDER_WIDTH ] ) || 1;
 			const styleVars = Object.assign( {},
 				arrowColor ? { '--inb-arrow-color': arrowColor } : {},
-				borderColor ? { '--inb-border-color': borderColor } : {}
+				borderColor ? { '--inb-border-color': borderColor } : {},
+				borderReveal ? { '--inb-border-width': borderWidth } : {}
 			);
 			if ( Object.keys( styleVars ).length ) {
 				extraProps.style = Object.assign( {}, extraProps.style, styleVars );
@@ -489,14 +461,6 @@
 			return extraProps;
 		}
 
-		// Image
-		if ( blockType.name === IMAGE_BLOCK ) {
-			const subtleScale = !!( attributes && attributes[ ATTR_IMAGE_SUBTLE_SCALE ] );
-			if ( !subtleScale ) return extraProps;
-
-			extraProps.className = [ extraProps.className, 'inb-image-subtle-scale' ].filter( Boolean ).join( ' ' );
-			return extraProps;
-		}
 
 		return extraProps;
 	}
