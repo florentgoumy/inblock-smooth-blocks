@@ -144,17 +144,22 @@
    ========================================= */
 
 .wp-block-group.inb-underline-reveal a:not(.wp-element-button){
-  /* Keep a visible underline by default (accessibility).
+  /* By default we keep a visible underline (accessibility).
      The reveal effect is additive via the background underline. */
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: .15em;
+  text-decoration-color: var(--inb-underline-color, currentColor);
 
   background-image: linear-gradient(var(--inb-underline-color, currentColor), var(--inb-underline-color, currentColor));
   background-repeat: no-repeat;
   background-position: 0 100%;
   background-size: 0% 2px;
   transition: background-size .3s cubic-bezier(.4,0,.2,1);
+}
+
+.wp-block-group.inb-underline-reveal.inb-underline-no-default a:not(.wp-element-button){
+  text-decoration: none;
 }
 
 .wp-block-group.inb-underline-reveal a:not(.wp-element-button):hover,

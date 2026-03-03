@@ -40,7 +40,13 @@ msgstr ""
 msgid "Icon color"
 msgstr ""
 
+msgid "If disabled, removes the underline until reveal."
+msgstr ""
+
 msgid "Inblock effects"
+msgstr ""
+
+msgid "Keep default underline"
 msgstr ""
 
 msgid "None"

@@ -20,6 +20,7 @@
 	const ATTR_NAV_SMOOTH_ROTATION = 'inbSmoothRotation';
 	const ATTR_UNDERLINE_REVEAL = 'inbUnderlineReveal';
 	const ATTR_UNDERLINE_COLOR = 'inbUnderlineColor';
+	const ATTR_UNDERLINE_KEEP_DECORATION = 'inbUnderlineKeepDecoration';
 
 	// UI options
 	const ARROW_OPTIONS = [
@@ -83,6 +84,7 @@
 		if ( name === GROUP_BLOCK ) {
 			settings.attributes = Object.assign( {}, settings.attributes, {
 				[ ATTR_UNDERLINE_REVEAL ]: { type: 'boolean', default: false },
+				[ ATTR_UNDERLINE_KEEP_DECORATION ]: { type: 'boolean', default: true },
 				[ ATTR_UNDERLINE_COLOR ]: { type: 'string', default: '' },
 			} );
 			return settings;
@@ -182,6 +184,7 @@
 			// Group UI
 			if ( props.name === GROUP_BLOCK ) {
 				const underlineReveal = !!( props.attributes && props.attributes[ ATTR_UNDERLINE_REVEAL ] );
+				const underlineKeepDecoration = !!( props.attributes && props.attributes[ ATTR_UNDERLINE_KEEP_DECORATION ] );
 				const underlineColor = ( props.attributes && props.attributes[ ATTR_UNDERLINE_COLOR ] ) || '';
 				const palette = getThemePalette();
 
@@ -201,6 +204,14 @@
 								onChange: ( val ) => props.setAttributes( { [ ATTR_UNDERLINE_REVEAL ]: !!val } ),
 								help: __( 'Animates an underline on links inside this group.', 'inblock-smooth-blocks' ),
 							} ),
+
+							underlineReveal &&
+								el( ToggleControl, {
+									label: __( 'Keep default underline', 'inblock-smooth-blocks' ),
+									checked: underlineKeepDecoration,
+									onChange: ( val ) => props.setAttributes( { [ ATTR_UNDERLINE_KEEP_DECORATION ]: !!val } ),
+									help: __( 'If disabled, removes the underline until reveal.', 'inblock-smooth-blocks' ),
+								} ),
 
 							underlineReveal &&
 								el(
@@ -274,8 +285,13 @@
 				const underlineReveal = !!( props.attributes && props.attributes[ ATTR_UNDERLINE_REVEAL ] );
 				if ( !underlineReveal ) return el( BlockListBlock, props );
 
+				const underlineKeepDecoration = !!( props.attributes && props.attributes[ ATTR_UNDERLINE_KEEP_DECORATION ] );
 				const underlineColor = ( props.attributes && props.attributes[ ATTR_UNDERLINE_COLOR ] ) || '';
-				const className = [ props.className, 'inb-underline-reveal' ].filter( Boolean ).join( ' ' );
+				const className = [
+					props.className,
+					'inb-underline-reveal',
+					underlineKeepDecoration ? '' : 'inb-underline-no-default',
+				].filter( Boolean ).join( ' ' );
 
 				const existingWrapperProps = props.wrapperProps || {};
 				const existingStyle = existingWrapperProps.style || {};
@@ -322,7 +338,12 @@
 			const underlineReveal = !!( attributes && attributes[ ATTR_UNDERLINE_REVEAL ] );
 			if ( !underlineReveal ) return extraProps;
 
-			extraProps.className = [ extraProps.className, 'inb-underline-reveal' ].filter( Boolean ).join( ' ' );
+			const underlineKeepDecoration = !!( attributes && attributes[ ATTR_UNDERLINE_KEEP_DECORATION ] );
+			extraProps.className = [
+				extraProps.className,
+				'inb-underline-reveal',
+				underlineKeepDecoration ? '' : 'inb-underline-no-default',
+			].filter( Boolean ).join( ' ' );
 
 			const underlineColor = ( attributes && attributes[ ATTR_UNDERLINE_COLOR ] ) || '';
 			if ( underlineColor ) {
