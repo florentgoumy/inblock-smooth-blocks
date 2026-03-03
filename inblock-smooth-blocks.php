@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+if ( ! class_exists( 'Inblock_Smooth_Blocks' ) ) :
+
 final class Inblock_Smooth_Blocks {
 	const VERSION = '0.8.0';
 
@@ -114,3 +116,5 @@ final class Inblock_Smooth_Blocks {
 }
 
 Inblock_Smooth_Blocks::init();
+
+endif;
