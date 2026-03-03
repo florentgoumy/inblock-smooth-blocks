@@ -13,14 +13,22 @@
 	const BUTTON_BLOCK = 'core/button';
 	const NAV_BLOCK = 'core/navigation';
 	const GROUP_BLOCK = 'core/group';
+	const IMAGE_BLOCK = 'core/image';
 
 	// Attributes
 	const ATTR_ARROW = 'inbArrow';
-	const ATTR_ARROW_COLOR = 'inbArrowColor'; // NEW
+	const ATTR_ARROW_COLOR = 'inbArrowColor';
+	const ATTR_BUTTON_BORDER_REVEAL = 'inbButtonBorderReveal';
+	const ATTR_BUTTON_BORDER_COLOR = 'inbButtonBorderColor';
+
 	const ATTR_NAV_SMOOTH_ROTATION = 'inbSmoothRotation';
+	const ATTR_NAV_SUBMENU_SOFT_SLIDE = 'inbNavSubmenuSoftSlide';
+
 	const ATTR_UNDERLINE_REVEAL = 'inbUnderlineReveal';
 	const ATTR_UNDERLINE_COLOR = 'inbUnderlineColor';
 	const ATTR_UNDERLINE_KEEP_DECORATION = 'inbUnderlineKeepDecoration';
+
+	const ATTR_IMAGE_SUBTLE_SCALE = 'inbImageSubtleScale';
 
 	// UI options
 	const ARROW_OPTIONS = [
@@ -67,7 +75,9 @@
 		if ( name === BUTTON_BLOCK ) {
 			settings.attributes = Object.assign( {}, settings.attributes, {
 				[ ATTR_ARROW ]: { type: 'string', default: '' },
-				[ ATTR_ARROW_COLOR ]: { type: 'string', default: '' }, // NEW
+				[ ATTR_ARROW_COLOR ]: { type: 'string', default: '' },
+				[ ATTR_BUTTON_BORDER_REVEAL ]: { type: 'boolean', default: false },
+				[ ATTR_BUTTON_BORDER_COLOR ]: { type: 'string', default: '' },
 			} );
 			return settings;
 		}
@@ -76,6 +86,7 @@
 		if ( name === NAV_BLOCK ) {
 			settings.attributes = Object.assign( {}, settings.attributes, {
 				[ ATTR_NAV_SMOOTH_ROTATION ]: { type: 'boolean', default: false },
+				[ ATTR_NAV_SUBMENU_SOFT_SLIDE ]: { type: 'boolean', default: false },
 			} );
 			return settings;
 		}
@@ -86,6 +97,14 @@
 				[ ATTR_UNDERLINE_REVEAL ]: { type: 'boolean', default: false },
 				[ ATTR_UNDERLINE_KEEP_DECORATION ]: { type: 'boolean', default: true },
 				[ ATTR_UNDERLINE_COLOR ]: { type: 'string', default: '' },
+			} );
+			return settings;
+		}
+
+		// Image: subtle scale
+		if ( name === IMAGE_BLOCK ) {
+			settings.attributes = Object.assign( {}, settings.attributes, {
+				[ ATTR_IMAGE_SUBTLE_SCALE ]: { type: 'boolean', default: false },
 			} );
 			return settings;
 		}
@@ -104,6 +123,8 @@
 			if ( props.name === BUTTON_BLOCK ) {
 				const currentArrow = ( props.attributes && props.attributes[ ATTR_ARROW ] ) || '';
 				const arrowColor = ( props.attributes && props.attributes[ ATTR_ARROW_COLOR ] ) || '';
+				const borderReveal = !!( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_REVEAL ] );
+				const borderColor = ( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_COLOR ] ) || '';
 				const palette = getThemePalette();
 
 				return el(
@@ -151,6 +172,40 @@
 										__( 'Defaults to the button text color if not set.', 'inblock-smooth-blocks' )
 									)
 								)
+							,
+
+							el( ToggleControl, {
+								label: __( 'Border reveal', 'inblock-smooth-blocks' ),
+								checked: borderReveal,
+								onChange: ( val ) => {
+									props.setAttributes( { [ ATTR_BUTTON_BORDER_REVEAL ]: !!val } );
+									if ( !val ) props.setAttributes( { [ ATTR_BUTTON_BORDER_COLOR ]: '' } );
+								},
+								help: __( 'Reveals a subtle border on hover/focus.', 'inblock-smooth-blocks' ),
+							} ),
+
+							borderReveal &&
+								el(
+									'div',
+									{ style: { marginTop: '12px' } },
+									el(
+										'div',
+										{ style: { marginBottom: '8px', fontSize: '11px', textTransform: 'uppercase', opacity: 0.7 } },
+										__( 'Border color', 'inblock-smooth-blocks' )
+									),
+									el( wp.blockEditor.ColorPalette, {
+										colors: palette,
+										value: borderColor || undefined,
+										onChange: ( val ) => props.setAttributes( { [ ATTR_BUTTON_BORDER_COLOR ]: val || '' } ),
+										disableCustomColors: false,
+										clearable: true,
+									} ),
+									el(
+										'div',
+										{ style: { marginTop: '6px', fontSize: '12px', opacity: 0.75 } },
+										__( 'Defaults to current text color if not set.', 'inblock-smooth-blocks' )
+									)
+								)
 						)
 					)
 				);
@@ -159,6 +214,7 @@
 			// Navigation UI
 			if ( props.name === NAV_BLOCK ) {
 				const smoothRotation = !!( props.attributes && props.attributes[ ATTR_NAV_SMOOTH_ROTATION ] );
+				const submenuSoftSlide = !!( props.attributes && props.attributes[ ATTR_NAV_SUBMENU_SOFT_SLIDE ] );
 
 				return el(
 					Fragment,
@@ -175,6 +231,12 @@
 								checked: smoothRotation,
 								onChange: ( val ) => props.setAttributes( { [ ATTR_NAV_SMOOTH_ROTATION ]: !!val } ),
 								help: __( 'Animates the submenu caret rotation instead of flipping instantly.', 'inblock-smooth-blocks' ),
+							} ),
+							el( ToggleControl, {
+								label: __( 'Submenu soft slide', 'inblock-smooth-blocks' ),
+								checked: submenuSoftSlide,
+								onChange: ( val ) => props.setAttributes( { [ ATTR_NAV_SUBMENU_SOFT_SLIDE ]: !!val } ),
+								help: __( 'Submenus fade in and slide slightly (desktop dropdown).', 'inblock-smooth-blocks' ),
 							} )
 						)
 					)
@@ -240,6 +302,31 @@
 				);
 			}
 
+			// Image UI
+			if ( props.name === IMAGE_BLOCK ) {
+				const subtleScale = !!( props.attributes && props.attributes[ ATTR_IMAGE_SUBTLE_SCALE ] );
+
+				return el(
+					Fragment,
+					{},
+					el( BlockEdit, props ),
+					el(
+						InspectorControls,
+						{ group: 'styles' },
+						el(
+							PanelBody,
+							{ title: __( 'Inblock effects', 'inblock-smooth-blocks' ), initialOpen: true },
+							el( ToggleControl, {
+								label: __( 'Subtle scale', 'inblock-smooth-blocks' ),
+								checked: subtleScale,
+								onChange: ( val ) => props.setAttributes( { [ ATTR_IMAGE_SUBTLE_SCALE ]: !!val } ),
+								help: __( 'Scales the image slightly on hover/focus (1.02).', 'inblock-smooth-blocks' ),
+							} )
+						)
+					)
+				);
+			}
+
 			return el( BlockEdit, props );
 		};
 	}, 'withInspectorControls' );
@@ -252,31 +339,54 @@
 	const withEditorClass = createHigherOrderComponent( ( BlockListBlock ) => {
 		return ( props ) => {
 
-			// Button: add arrow class + icon color variable
+			// Button: add effect classes + CSS variables
 			if ( props.name === BUTTON_BLOCK ) {
 				const val = ( props.attributes && props.attributes[ ATTR_ARROW ] ) || '';
-				const cls = arrowClass( val );
-				if ( !cls ) return el( BlockListBlock, props );
+				const clsArrow = arrowClass( val );
+				const borderReveal = !!( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_REVEAL ] );
+
+				if ( !clsArrow && !borderReveal ) return el( BlockListBlock, props );
 
 				const arrowColor = ( props.attributes && props.attributes[ ATTR_ARROW_COLOR ] ) || '';
-				const className = [ props.className, cls ].filter( Boolean ).join( ' ' );
+				const borderColor = ( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_COLOR ] ) || '';
+
+				const className = [ props.className, clsArrow, borderReveal ? 'inb-border-reveal' : '' ].filter( Boolean ).join( ' ' );
 
 				const existingWrapperProps = props.wrapperProps || {};
 				const existingStyle = existingWrapperProps.style || {};
 
+				const styleVars = Object.assign( {},
+					arrowColor ? { '--inb-arrow-color': arrowColor } : {},
+					borderColor ? { '--inb-border-color': borderColor } : {}
+				);
+
 				const wrapperProps = Object.assign( {}, existingWrapperProps, {
-					style: Object.assign( {}, existingStyle, arrowColor ? { '--inb-arrow-color': arrowColor } : {} ),
+					style: Object.assign( {}, existingStyle, styleVars ),
 				} );
 
 				return el( BlockListBlock, Object.assign( {}, props, { className, wrapperProps } ) );
 			}
 
-			// Navigation: add smooth rotation class (editor preview)
+			// Navigation: add classes (editor preview)
 			if ( props.name === NAV_BLOCK ) {
 				const smoothRotation = !!( props.attributes && props.attributes[ ATTR_NAV_SMOOTH_ROTATION ] );
-				if ( !smoothRotation ) return el( BlockListBlock, props );
+				const submenuSoftSlide = !!( props.attributes && props.attributes[ ATTR_NAV_SUBMENU_SOFT_SLIDE ] );
+				if ( !smoothRotation && !submenuSoftSlide ) return el( BlockListBlock, props );
 
-				const className = [ props.className, 'inb-smooth-rotation' ].filter( Boolean ).join( ' ' );
+				const className = [
+					props.className,
+					smoothRotation ? 'inb-smooth-rotation' : '',
+					submenuSoftSlide ? 'inb-submenu-soft-slide' : '',
+				].filter( Boolean ).join( ' ' );
+				return el( BlockListBlock, Object.assign( {}, props, { className } ) );
+			}
+
+			// Image: subtle scale (editor preview)
+			if ( props.name === IMAGE_BLOCK ) {
+				const subtleScale = !!( props.attributes && props.attributes[ ATTR_IMAGE_SUBTLE_SCALE ] );
+				if ( !subtleScale ) return el( BlockListBlock, props );
+
+				const className = [ props.className, 'inb-image-subtle-scale' ].filter( Boolean ).join( ' ' );
 				return el( BlockListBlock, Object.assign( {}, props, { className } ) );
 			}
 
@@ -318,16 +428,26 @@
 		// Button
 		if ( blockType.name === BUTTON_BLOCK ) {
 			const val = ( attributes && attributes[ ATTR_ARROW ] ) || '';
-			const cls = arrowClass( val );
-			if ( !cls ) return extraProps;
+			const clsArrow = arrowClass( val );
+			const borderReveal = !!( attributes && attributes[ ATTR_BUTTON_BORDER_REVEAL ] );
 
-			extraProps.className = [ extraProps.className, cls ].filter( Boolean ).join( ' ' );
+			if ( !clsArrow && !borderReveal ) return extraProps;
+
+			extraProps.className = [
+				extraProps.className,
+				clsArrow,
+				borderReveal ? 'inb-border-reveal' : '',
+			].filter( Boolean ).join( ' ' );
 
 			const arrowColor = ( attributes && attributes[ ATTR_ARROW_COLOR ] ) || '';
-			if ( arrowColor ) {
-				extraProps.style = Object.assign( {}, extraProps.style, {
-					'--inb-arrow-color': arrowColor,
-				} );
+			const borderColor = ( attributes && attributes[ ATTR_BUTTON_BORDER_COLOR ] ) || '';
+
+			const styleVars = Object.assign( {},
+				arrowColor ? { '--inb-arrow-color': arrowColor } : {},
+				borderColor ? { '--inb-border-color': borderColor } : {}
+			);
+			if ( Object.keys( styleVars ).length ) {
+				extraProps.style = Object.assign( {}, extraProps.style, styleVars );
 			}
 
 			return extraProps;
@@ -358,9 +478,23 @@
 		// Navigation (best-effort; frontend is guaranteed by PHP filter)
 		if ( blockType.name === NAV_BLOCK ) {
 			const smoothRotation = !!( attributes && attributes[ ATTR_NAV_SMOOTH_ROTATION ] );
-			if ( !smoothRotation ) return extraProps;
+			const submenuSoftSlide = !!( attributes && attributes[ ATTR_NAV_SUBMENU_SOFT_SLIDE ] );
+			if ( !smoothRotation && !submenuSoftSlide ) return extraProps;
 
-			extraProps.className = [ extraProps.className, 'inb-smooth-rotation' ].filter( Boolean ).join( ' ' );
+			extraProps.className = [
+				extraProps.className,
+				smoothRotation ? 'inb-smooth-rotation' : '',
+				submenuSoftSlide ? 'inb-submenu-soft-slide' : '',
+			].filter( Boolean ).join( ' ' );
+			return extraProps;
+		}
+
+		// Image
+		if ( blockType.name === IMAGE_BLOCK ) {
+			const subtleScale = !!( attributes && attributes[ ATTR_IMAGE_SUBTLE_SCALE ] );
+			if ( !subtleScale ) return extraProps;
+
+			extraProps.className = [ extraProps.className, 'inb-image-subtle-scale' ].filter( Boolean ).join( ' ' );
 			return extraProps;
 		}
 
