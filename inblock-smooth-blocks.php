@@ -32,7 +32,7 @@ final class Inblock_Smooth_Blocks {
 		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'enqueue_editor_js' ] );
 
 		// Ensure Navigation class exists in FRONTEND rendered HTML (server-side injection)
-		add_filter( 'render_block', [ __CLASS__, 'inject_navigation_class' ], 10, 2 );
+		add_filter( 'render_block_core/navigation', [ __CLASS__, 'inject_navigation_class' ], 10, 2 );
 	}
 
 	public static function register_assets(): void {
@@ -74,10 +74,6 @@ final class Inblock_Smooth_Blocks {
 	 * when attribute `inbSmoothRotation` is enabled.
 	 */
 	public static function inject_navigation_class( string $block_content, array $block ): string {
-		if ( empty( $block['blockName'] ) || 'core/navigation' !== $block['blockName'] ) {
-			return $block_content;
-		}
-
 		$attrs   = $block['attrs'] ?? [];
 		$enabled = ! empty( $attrs['inbSmoothRotation'] );
 

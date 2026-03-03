@@ -26,11 +26,14 @@
 		{ label: __( 'None', 'inblock-smooth-blocks' ), value: '' },
 		{ label: __( 'Arrow right (→)', 'inblock-smooth-blocks' ), value: 'right' },
 		{ label: __( 'Arrow left (←)', 'inblock-smooth-blocks' ), value: 'left' },
+		{ label: __( 'Arrow up (↑)', 'inblock-smooth-blocks' ), value: 'up' },
+		{ label: __( 'Arrow down (↓)', 'inblock-smooth-blocks' ), value: 'down' },
 		{ label: __( 'Arrow external (↗)', 'inblock-smooth-blocks' ), value: 'external' },
 	];
 
 	function arrowClass( value ) {
-		if ( value !== 'right' && value !== 'left' && value !== 'external' ) return '';
+		// Whitelist expected values only
+		if ( value !== 'right' && value !== 'left' && value !== 'up' && value !== 'down' && value !== 'external' ) return '';
 		return 'inb-arrow-' + value;
 	}
 
