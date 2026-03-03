@@ -4,7 +4,7 @@ Tags: gutenberg, blocks, button, navigation, animation, micro-interactions, ui
 Requires at least: 6.0
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 0.7.0
+Stable tag: 0.8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,12 @@ Yes. Animations respect the `prefers-reduced-motion` setting.
 Yes. The plugin only adds classes and CSS micro-interactions without modifying theme structure.
 
 == Changelog ==
+
+= 0.8.0 =
+- Accessibility: keep a visible underline by default for Underline Reveal.
+- Navigation: inject smooth-rotation class via `render_block_core/navigation`.
+- Button: expose Arrow up/down options in the editor selector.
+- Chore: remove temporary file `assets/js/editortmp.js`.
 
 = 0.7.0 =
 Added Arrow up and Arrow down animated icons for Button blocks.
