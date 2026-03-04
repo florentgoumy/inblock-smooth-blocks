@@ -23,7 +23,6 @@
 	const ATTR_BUTTON_BORDER_WIDTH = 'inbButtonBorderWidth';
 
 	const ATTR_NAV_SMOOTH_ROTATION = 'inbSmoothRotation';
-	const ATTR_NAV_SUBMENU_SOFT_SLIDE = 'inbNavSubmenuSoftSlide';
 
 	const ATTR_UNDERLINE_REVEAL = 'inbUnderlineReveal';
 	const ATTR_UNDERLINE_COLOR = 'inbUnderlineColor';
@@ -88,7 +87,6 @@
 		if ( name === NAV_BLOCK ) {
 			settings.attributes = Object.assign( {}, settings.attributes, {
 				[ ATTR_NAV_SMOOTH_ROTATION ]: { type: 'boolean', default: false },
-				[ ATTR_NAV_SUBMENU_SOFT_SLIDE ]: { type: 'boolean', default: false },
 			} );
 			return settings;
 		}
@@ -217,7 +215,6 @@
 			// Navigation UI
 			if ( props.name === NAV_BLOCK ) {
 				const smoothRotation = !!( props.attributes && props.attributes[ ATTR_NAV_SMOOTH_ROTATION ] );
-				const submenuSoftSlide = !!( props.attributes && props.attributes[ ATTR_NAV_SUBMENU_SOFT_SLIDE ] );
 
 				return el(
 					Fragment,
@@ -234,12 +231,6 @@
 								checked: smoothRotation,
 								onChange: ( val ) => props.setAttributes( { [ ATTR_NAV_SMOOTH_ROTATION ]: !!val } ),
 								help: __( 'Animates the submenu caret rotation instead of flipping instantly.', 'inblock-smooth-blocks' ),
-							} ),
-							el( ToggleControl, {
-								label: __( 'Submenu soft slide', 'inblock-smooth-blocks' ),
-								checked: submenuSoftSlide,
-								onChange: ( val ) => props.setAttributes( { [ ATTR_NAV_SUBMENU_SOFT_SLIDE ]: !!val } ),
-								help: __( 'Submenus fade in and slide slightly (desktop dropdown).', 'inblock-smooth-blocks' ),
 							} )
 						)
 					)
@@ -346,17 +337,12 @@
 				return el( BlockListBlock, Object.assign( {}, props, { className, wrapperProps } ) );
 			}
 
-			// Navigation: add classes (editor preview)
+			// Navigation: add smooth rotation class (editor preview)
 			if ( props.name === NAV_BLOCK ) {
 				const smoothRotation = !!( props.attributes && props.attributes[ ATTR_NAV_SMOOTH_ROTATION ] );
-				const submenuSoftSlide = !!( props.attributes && props.attributes[ ATTR_NAV_SUBMENU_SOFT_SLIDE ] );
-				if ( !smoothRotation && !submenuSoftSlide ) return el( BlockListBlock, props );
+				if ( !smoothRotation ) return el( BlockListBlock, props );
 
-				const className = [
-					props.className,
-					smoothRotation ? 'inb-smooth-rotation' : '',
-					submenuSoftSlide ? 'inb-submenu-soft-slide' : '',
-				].filter( Boolean ).join( ' ' );
+				const className = [ props.className, 'inb-smooth-rotation' ].filter( Boolean ).join( ' ' );
 				return el( BlockListBlock, Object.assign( {}, props, { className } ) );
 			}
 
@@ -450,14 +436,9 @@
 		// Navigation (best-effort; frontend is guaranteed by PHP filter)
 		if ( blockType.name === NAV_BLOCK ) {
 			const smoothRotation = !!( attributes && attributes[ ATTR_NAV_SMOOTH_ROTATION ] );
-			const submenuSoftSlide = !!( attributes && attributes[ ATTR_NAV_SUBMENU_SOFT_SLIDE ] );
-			if ( !smoothRotation && !submenuSoftSlide ) return extraProps;
+			if ( !smoothRotation ) return extraProps;
 
-			extraProps.className = [
-				extraProps.className,
-				smoothRotation ? 'inb-smooth-rotation' : '',
-				submenuSoftSlide ? 'inb-submenu-soft-slide' : '',
-			].filter( Boolean ).join( ' ' );
+			extraProps.className = [ extraProps.className, 'inb-smooth-rotation' ].filter( Boolean ).join( ' ' );
 			return extraProps;
 		}
 

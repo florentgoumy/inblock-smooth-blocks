@@ -184,68 +184,22 @@
   position: relative;
 }
 
-/* Use ::after to avoid clashing with themes that already use ::before on buttons */
-.wp-block-button.inb-border-reveal .wp-element-button::after{
-  content: "";
-  position: absolute;
+/* Theme-agnostic border reveal using box-shadow (no pseudo-elements, no layout shift) */
+.wp-block-button.inb-border-reveal .wp-element-button{
+  --inb-border-width: var(--inb-border-width, 1px);
+  --inb-border-color: var(--inb-border-color, currentColor);
 
-  /* draw outside the button box so it reads as an outer border */
-  inset: calc(-1 * var(--inb-border-width, 1px));
-
-  border-radius: inherit;
-  pointer-events: none;
-
-  border: var(--inb-border-width, 1px) solid var(--inb-border-color, currentColor);
-
-  /* Hidden by default */
-  opacity: 0;
-  transform: scaleX(.98);
-  transform-origin: 50% 50%;
-  transition: transform .2s ease, opacity .2s ease;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--inb-border-color) 0%, transparent);
+  transition: box-shadow .2s ease;
 }
 
-.wp-block-button.inb-border-reveal .wp-element-button:hover::after,
-.wp-block-button.inb-border-reveal .wp-element-button:focus-visible::after{
-  opacity: 1;
-  transform: scaleX(1);
+.wp-block-button.inb-border-reveal .wp-element-button:hover,
+.wp-block-button.inb-border-reveal .wp-element-button:focus-visible{
+  box-shadow: 0 0 0 var(--inb-border-width) var(--inb-border-color);
 }
 
 @media (prefers-reduced-motion: reduce){
-  .wp-block-button.inb-border-reveal .wp-element-button::after{
+  .wp-block-button.inb-border-reveal .wp-element-button{
     transition: none;
-  }
-  .wp-block-button.inb-border-reveal .wp-element-button:hover::after,
-  .wp-block-button.inb-border-reveal .wp-element-button:focus-visible::after{
-    transform: none;
-  }
-}
-
-
-/* =========================================
-   Navigation: Submenu soft slide (desktop dropdown)
-   ========================================= */
-
-/* Animate dropdown container */
-.wp-block-navigation.inb-submenu-soft-slide .wp-block-navigation__submenu-container{
-  transition: transform .25s cubic-bezier(.4,0,.2,1), opacity .25s ease;
-  transform: translateY(6px);
-  opacity: 0;
-  will-change: transform, opacity;
-}
-
-/* When submenu is open (hover or aria-expanded) */
-.wp-block-navigation.inb-submenu-soft-slide .wp-block-navigation-item:hover > .wp-block-navigation__submenu-container,
-.wp-block-navigation.inb-submenu-soft-slide .wp-block-navigation-submenu__toggle[aria-expanded="true"] + .wp-block-navigation__submenu-container{
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce){
-  .wp-block-navigation.inb-submenu-soft-slide .wp-block-navigation__submenu-container{
-    transition: none;
-  }
-  .wp-block-navigation.inb-submenu-soft-slide .wp-block-navigation-item:hover > .wp-block-navigation__submenu-container,
-  .wp-block-navigation.inb-submenu-soft-slide .wp-block-navigation-submenu__toggle[aria-expanded="true"] + .wp-block-navigation__submenu-container{
-    transform: none;
   }
 }

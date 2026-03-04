@@ -67,12 +67,6 @@ msgstr ""
 msgid "Smooth rotation"
 msgstr ""
 
-msgid "Submenu soft slide"
-msgstr ""
-
-msgid "Submenus fade in and slide slightly (desktop dropdown)."
-msgstr ""
-
 msgid "Underline color"
 msgstr ""
 
