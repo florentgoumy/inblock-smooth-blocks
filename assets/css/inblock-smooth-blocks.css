@@ -16,14 +16,14 @@
 }
 
 /* Arrow Right (→) */
-.wp-block-button.inb-arrow-right .wp-element-button::before{
+.wp-block-button.inb-arrow-right .wp-element-button::after{
   content: "→";
   display: inline-block;
   color: var(--inb-arrow-color, currentColor);
   transition: transform .2s ease;
 }
-.wp-block-button.inb-arrow-right .wp-element-button:hover::before,
-.wp-block-button.inb-arrow-right .wp-element-button:focus-visible::before{
+.wp-block-button.inb-arrow-right .wp-element-button:hover::after,
+.wp-block-button.inb-arrow-right .wp-element-button:focus-visible::after{
   transform: translateX(4px);
 }
 
@@ -40,38 +40,38 @@
 }
 
 /* Arrow Up (↑) - icon on the right */
-.wp-block-button.inb-arrow-up .wp-element-button::before{
+.wp-block-button.inb-arrow-up .wp-element-button::after{
   content: "↑";
   display: inline-block;
   color: var(--inb-arrow-color, currentColor);
   transition: transform .2s ease;
 }
-.wp-block-button.inb-arrow-up .wp-element-button:hover::before,
-.wp-block-button.inb-arrow-up .wp-element-button:focus-visible::before{
+.wp-block-button.inb-arrow-up .wp-element-button:hover::after,
+.wp-block-button.inb-arrow-up .wp-element-button:focus-visible::after{
   transform: translateY(-4px);
 }
 
 /* Arrow Down (↓) - icon on the right */
-.wp-block-button.inb-arrow-down .wp-element-button::before{
+.wp-block-button.inb-arrow-down .wp-element-button::after{
   content: "↓";
   display: inline-block;
   color: var(--inb-arrow-color, currentColor);
   transition: transform .2s ease;
 }
-.wp-block-button.inb-arrow-down .wp-element-button:hover::before,
-.wp-block-button.inb-arrow-down .wp-element-button:focus-visible::before{
+.wp-block-button.inb-arrow-down .wp-element-button:hover::after,
+.wp-block-button.inb-arrow-down .wp-element-button:focus-visible::after{
   transform: translateY(4px);
 }
 
 /* Arrow External (↗) */
-.wp-block-button.inb-arrow-external .wp-element-button::before{
+.wp-block-button.inb-arrow-external .wp-element-button::after{
   content: "↗";
   display: inline-block;
   color: var(--inb-arrow-color, currentColor);
   transition: transform .2s ease;
 }
-.wp-block-button.inb-arrow-external .wp-element-button:hover::before,
-.wp-block-button.inb-arrow-external .wp-element-button:focus-visible::before{
+.wp-block-button.inb-arrow-external .wp-element-button:hover::after,
+.wp-block-button.inb-arrow-external .wp-element-button:focus-visible::after{
   transform: translate(3px,-3px);
 }
 
@@ -173,17 +173,6 @@
   }
 }
 
-
-/* =========================================
-   Button: Border reveal
-   - Additive: overlay border via pseudo-element (no layout shift)
-   - Color via --inb-border-color
-   ========================================= */
-
-.wp-block-button.inb-border-reveal .wp-element-button{
-  position: relative;
-}
-
 /* Border reveal (additive)
    - Uses a pseudo-element overlay so we don't override theme box-shadow.
    - Vars:
@@ -199,8 +188,9 @@
   position: absolute;
   pointer-events: none;
 
-  /* outside the button box, so it reads as a border around */
-  inset: calc(-1 * var(--inb-brd-w, 1px));
+  /* Place the stroke centered on the edge so it reads as outside even at small widths.
+     (Half outside, half inside.) */
+  inset: calc(-0.5 * var(--inb-brd-w, 1px));
 
   border-radius: inherit;
   border: var(--inb-brd-w, 1px) solid var(--inb-brd-c, currentColor);
@@ -208,7 +198,7 @@
   opacity: 0;
   transform: scaleX(.98);
   transform-origin: 50% 50%;
-  transition: transform .2s ease, opacity .2s ease;
+  transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .35s ease;
 }
 
 .wp-block-button.inb-border-reveal .wp-element-button:hover::after,
