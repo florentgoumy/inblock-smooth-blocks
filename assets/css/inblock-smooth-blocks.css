@@ -190,12 +190,20 @@
    - Uses a wrapper pseudo-element so it remains visible even if themes apply
      overflow/clip on the button link.
    - Vars:
-     --inb-brd-w: 1px
-     --inb-brd-c: currentColor
+     --inb-border-width: 1px (set via class, not inline)
+     --inb-border-color: currentColor
 */
 .wp-block-button.inb-border-reveal{
   position: relative;
 }
+
+/* Width mapping via classes (avoids inline vars that can trigger theme hacks) */
+.wp-block-button.inb-border-w-1{ --inb-border-width: 1px; }
+.wp-block-button.inb-border-w-2{ --inb-border-width: 2px; }
+.wp-block-button.inb-border-w-3{ --inb-border-width: 3px; }
+.wp-block-button.inb-border-w-4{ --inb-border-width: 4px; }
+.wp-block-button.inb-border-w-5{ --inb-border-width: 5px; }
+.wp-block-button.inb-border-w-6{ --inb-border-width: 6px; }
 
 .wp-block-button.inb-border-reveal::after{
   content: "";
@@ -203,12 +211,12 @@
   pointer-events: none;
 
   /* 50/50 stroke (half outside, half inside) */
-  inset: calc(-0.5 * var(--inb-brd-w, 1px));
+  inset: calc(-0.5 * var(--inb-border-width, 1px));
 
   /* Best-effort: match the link radius */
   border-radius: inherit;
 
-  border: var(--inb-brd-w, 1px) solid var(--inb-brd-c, currentColor);
+  border: var(--inb-border-width, 1px) solid var(--inb-border-color, currentColor);
 
   opacity: 0;
   transform: scaleX(.98);

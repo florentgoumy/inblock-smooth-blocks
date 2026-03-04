@@ -20,7 +20,7 @@
 	const ATTR_ARROW_COLOR = 'inbArrowColor';
 	const ATTR_BUTTON_BORDER_REVEAL = 'inbButtonBorderReveal';
 	const ATTR_BUTTON_BORDER_COLOR = 'inbButtonBorderColor';
-	const ATTR_BUTTON_BORDER_WIDTH = 'inbButtonBorderWidth'; // stored in px
+	const ATTR_BUTTON_BORDER_WIDTH = 'inbButtonBorderWidth'; // integer (1..6)
 
 	const ATTR_NAV_SMOOTH_ROTATION = 'inbSmoothRotation';
 
@@ -319,15 +319,19 @@
 				const arrowColor = ( props.attributes && props.attributes[ ATTR_ARROW_COLOR ] ) || '';
 				const borderColor = ( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_COLOR ] ) || '';
 
-				const className = [ props.className, clsArrow, borderReveal ? 'inb-border-reveal' : '' ].filter( Boolean ).join( ' ' );
+				const className = [
+					props.className,
+					clsArrow,
+					borderReveal ? 'inb-border-reveal' : '',
+					borderReveal ? 'inb-border-w-' + borderWidth : '',
+				].filter( Boolean ).join( ' ' );
 
 				const existingWrapperProps = props.wrapperProps || {};
 				const existingStyle = existingWrapperProps.style || {};
 
 				const styleVars = Object.assign( {},
 					arrowColor ? { '--inb-arrow-color': arrowColor } : {},
-					borderColor ? { '--inb-brd-c': borderColor } : {},
-					borderReveal ? { '--inb-brd-w': String( ( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_WIDTH ] ) || 1 ) + 'px' } : {}
+					borderColor ? { '--inb-border-color': borderColor } : {}
 				);
 
 				const wrapperProps = Object.assign( {}, existingWrapperProps, {
@@ -393,6 +397,7 @@
 				extraProps.className,
 				clsArrow,
 				borderReveal ? 'inb-border-reveal' : '',
+				borderReveal ? 'inb-border-w-' + borderWidth : '',
 			].filter( Boolean ).join( ' ' );
 
 			const arrowColor = ( attributes && attributes[ ATTR_ARROW_COLOR ] ) || '';
@@ -401,8 +406,7 @@
 			const borderWidth = ( attributes && attributes[ ATTR_BUTTON_BORDER_WIDTH ] ) || 1;
 			const styleVars = Object.assign( {},
 				arrowColor ? { '--inb-arrow-color': arrowColor } : {},
-				borderColor ? { '--inb-brd-c': borderColor } : {},
-				borderReveal ? { '--inb-brd-w': String( borderWidth ) + 'px' } : {}
+				borderColor ? { '--inb-border-color': borderColor } : {}
 			);
 			if ( Object.keys( styleVars ).length ) {
 				extraProps.style = Object.assign( {}, extraProps.style, styleVars );
