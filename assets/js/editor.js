@@ -319,6 +319,7 @@
 				const arrowColor = ( props.attributes && props.attributes[ ATTR_ARROW_COLOR ] ) || '';
 				const borderColor = ( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_COLOR ] ) || '';
 
+				const borderWidth = ( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_WIDTH ] ) || 1;
 				const className = [
 					props.className,
 					clsArrow,
