@@ -186,57 +186,44 @@
   }
 }
 
-/* Border reveal (additive)
-   - Uses a wrapper pseudo-element so it remains visible even if themes apply
-     overflow/clip on the button link.
-   - Vars:
-     --inb-border-width: 1px (set via class, not inline)
-     --inb-border-color: currentColor
-*/
-.wp-block-button.inb-border-reveal{
-  position: relative;
-}
+/* =========================================
+   Button: Hover shadow
+   - Intentionally overrides existing shadow on hover/focus.
+   - Styles: border | elevate | pressed
+   ========================================= */
 
-/* Width mapping via classes (avoids inline vars that can trigger theme hacks) */
-.wp-block-button.inb-border-w-1{ --inb-border-width: 1px; }
-.wp-block-button.inb-border-w-2{ --inb-border-width: 2px; }
-.wp-block-button.inb-border-w-3{ --inb-border-width: 3px; }
-.wp-block-button.inb-border-w-4{ --inb-border-width: 4px; }
-.wp-block-button.inb-border-w-5{ --inb-border-width: 5px; }
-.wp-block-button.inb-border-w-6{ --inb-border-width: 6px; }
-
-.wp-block-button.inb-border-reveal::after{
-  content: "";
-  position: absolute;
-  pointer-events: none;
-
-  /* 50/50 stroke (half outside, half inside) */
-  inset: calc(-0.5 * var(--inb-border-width, 1px));
-
-  /* Best-effort: match the link radius */
-  border-radius: inherit;
-
-  border: var(--inb-border-width, 1px) solid var(--inb-border-color, currentColor);
-
-  opacity: 0;
-  transform: scaleX(.98);
-  transform-origin: 50% 50%;
-  transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .35s ease;
-}
-
-/* Hover + keyboard focus */
-.wp-block-button.inb-border-reveal:hover::after,
-.wp-block-button.inb-border-reveal:focus-within::after{
-  opacity: 1;
-  transform: scaleX(1);
+.wp-block-button.inb-hover-shadow .wp-element-button{
+  transition: box-shadow .25s cubic-bezier(.4,0,.2,1);
 }
 
 @media (prefers-reduced-motion: reduce){
-  .wp-block-button.inb-border-reveal::after{
+  .wp-block-button.inb-hover-shadow .wp-element-button{
     transition: none;
   }
-  .wp-block-button.inb-border-reveal:hover::after,
-  .wp-block-button.inb-border-reveal:focus-within::after{
-    transform: none;
-  }
+}
+
+/* Border-style shadow (stroke) */
+.wp-block-button.inb-hover-shadow-border .wp-element-button:hover,
+.wp-block-button.inb-hover-shadow-border .wp-element-button:focus-visible{
+  box-shadow: 0 0 0 var(--inb-hover-shadow-width, 2px) var(--inb-hover-shadow-color, currentColor);
+}
+
+/* Width mapping via classes (avoid inline vars like "border-width") */
+.wp-block-button.inb-hover-shadow-w-1{ --inb-hover-shadow-width: 1px; }
+.wp-block-button.inb-hover-shadow-w-2{ --inb-hover-shadow-width: 2px; }
+.wp-block-button.inb-hover-shadow-w-3{ --inb-hover-shadow-width: 3px; }
+.wp-block-button.inb-hover-shadow-w-4{ --inb-hover-shadow-width: 4px; }
+.wp-block-button.inb-hover-shadow-w-5{ --inb-hover-shadow-width: 5px; }
+.wp-block-button.inb-hover-shadow-w-6{ --inb-hover-shadow-width: 6px; }
+
+/* Elevate */
+.wp-block-button.inb-hover-shadow-elevate .wp-element-button:hover,
+.wp-block-button.inb-hover-shadow-elevate .wp-element-button:focus-visible{
+  box-shadow: 0 10px 30px rgba(0,0,0,.18);
+}
+
+/* Pressed */
+.wp-block-button.inb-hover-shadow-pressed .wp-element-button:hover,
+.wp-block-button.inb-hover-shadow-pressed .wp-element-button:focus-visible{
+  box-shadow: 0 4px 14px rgba(0,0,0,.22);
 }

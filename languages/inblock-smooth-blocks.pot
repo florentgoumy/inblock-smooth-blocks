@@ -16,6 +16,9 @@ msgstr ""
 msgid "Animates the submenu caret rotation instead of flipping instantly."
 msgstr ""
 
+msgid "Applies a shadow effect on hover/focus."
+msgstr ""
+
 msgid "Arrow down (↓)"
 msgstr ""
 
@@ -31,10 +34,10 @@ msgstr ""
 msgid "Arrow up (↑)"
 msgstr ""
 
-msgid "Border color"
+msgid "Border"
 msgstr ""
 
-msgid "Border reveal"
+msgid "Border color"
 msgstr ""
 
 msgid "Border width (px)"
@@ -44,6 +47,12 @@ msgid "Defaults to current text color if not set."
 msgstr ""
 
 msgid "Defaults to the button text color if not set."
+msgstr ""
+
+msgid "Elevate"
+msgstr ""
+
+msgid "Hover shadow"
 msgstr ""
 
 msgid "Icon color"
@@ -61,7 +70,10 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-msgid "Reveals a subtle border on hover/focus."
+msgid "Pressed"
+msgstr ""
+
+msgid "Shadow style"
 msgstr ""
 
 msgid "Smooth rotation"

@@ -18,9 +18,10 @@
 	// Attributes
 	const ATTR_ARROW = 'inbArrow';
 	const ATTR_ARROW_COLOR = 'inbArrowColor';
-	const ATTR_BUTTON_BORDER_REVEAL = 'inbButtonBorderReveal';
-	const ATTR_BUTTON_BORDER_COLOR = 'inbButtonBorderColor';
-	const ATTR_BUTTON_BORDER_WIDTH = 'inbButtonBorderWidth'; // integer (1..6)
+	const ATTR_HOVER_SHADOW = 'inbHoverShadow';
+	const ATTR_HOVER_SHADOW_STYLE = 'inbHoverShadowStyle';
+	const ATTR_HOVER_SHADOW_COLOR = 'inbHoverShadowColor';
+	const ATTR_HOVER_SHADOW_WIDTH = 'inbHoverShadowWidth';
 
 	const ATTR_NAV_SMOOTH_ROTATION = 'inbSmoothRotation';
 
@@ -76,9 +77,10 @@
 			settings.attributes = Object.assign( {}, settings.attributes, {
 				[ ATTR_ARROW ]: { type: 'string', default: '' },
 				[ ATTR_ARROW_COLOR ]: { type: 'string', default: '' },
-				[ ATTR_BUTTON_BORDER_REVEAL ]: { type: 'boolean', default: false },
-				[ ATTR_BUTTON_BORDER_COLOR ]: { type: 'string', default: '' },
-				[ ATTR_BUTTON_BORDER_WIDTH ]: { type: 'number', default: 1 },
+				[ ATTR_HOVER_SHADOW ]: { type: 'boolean', default: false },
+				[ ATTR_HOVER_SHADOW_STYLE ]: { type: 'string', default: 'border' },
+				[ ATTR_HOVER_SHADOW_COLOR ]: { type: 'string', default: '' },
+				[ ATTR_HOVER_SHADOW_WIDTH ]: { type: 'number', default: 2 },
 			} );
 			return settings;
 		}
@@ -116,9 +118,10 @@
 			if ( props.name === BUTTON_BLOCK ) {
 				const currentArrow = ( props.attributes && props.attributes[ ATTR_ARROW ] ) || '';
 				const arrowColor = ( props.attributes && props.attributes[ ATTR_ARROW_COLOR ] ) || '';
-				const borderReveal = !!( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_REVEAL ] );
-				const borderColor = ( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_COLOR ] ) || '';
-				const borderWidth = ( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_WIDTH ] ) || 1;
+				const hoverShadow = !!( props.attributes && props.attributes[ ATTR_HOVER_SHADOW ] );
+				const hoverShadowStyle = ( props.attributes && props.attributes[ ATTR_HOVER_SHADOW_STYLE ] ) || 'border';
+				const hoverShadowColor = ( props.attributes && props.attributes[ ATTR_HOVER_SHADOW_COLOR ] ) || '';
+				const hoverShadowWidth = ( props.attributes && props.attributes[ ATTR_HOVER_SHADOW_WIDTH ] ) || 2;
 				const palette = getThemePalette();
 
 				return el(
@@ -169,16 +172,34 @@
 							,
 
 							el( ToggleControl, {
-								label: __( 'Border reveal', 'inblock-smooth-blocks' ),
-								checked: borderReveal,
+								label: __( 'Hover shadow', 'inblock-smooth-blocks' ),
+								checked: hoverShadow,
 								onChange: ( val ) => {
-									props.setAttributes( { [ ATTR_BUTTON_BORDER_REVEAL ]: !!val } );
-									if ( !val ) props.setAttributes( { [ ATTR_BUTTON_BORDER_COLOR ]: '', [ ATTR_BUTTON_BORDER_WIDTH ]: 1 } );
-								}, 
-								help: __( 'Reveals a subtle border on hover/focus.', 'inblock-smooth-blocks' ),
+									props.setAttributes( { [ ATTR_HOVER_SHADOW ]: !!val } );
+									if ( !val ) {
+										props.setAttributes( {
+											[ ATTR_HOVER_SHADOW_STYLE ]: 'border',
+											[ ATTR_HOVER_SHADOW_COLOR ]: '',
+											[ ATTR_HOVER_SHADOW_WIDTH ]: 2,
+										} );
+									}
+								},
+								help: __( 'Applies a shadow effect on hover/focus.', 'inblock-smooth-blocks' ),
 							} ),
 
-							borderReveal &&
+							hoverShadow &&
+								el( SelectControl, {
+									label: __( 'Shadow style', 'inblock-smooth-blocks' ),
+									value: hoverShadowStyle,
+									options: [
+										{ label: __( 'Border', 'inblock-smooth-blocks' ), value: 'border' },
+										{ label: __( 'Elevate', 'inblock-smooth-blocks' ), value: 'elevate' },
+										{ label: __( 'Pressed', 'inblock-smooth-blocks' ), value: 'pressed' },
+									],
+									onChange: ( val ) => props.setAttributes( { [ ATTR_HOVER_SHADOW_STYLE ]: val } ),
+								} ),
+
+							hoverShadow && hoverShadowStyle === 'border' &&
 								el(
 									'div',
 									{ style: { marginTop: '12px' } },
@@ -189,23 +210,18 @@
 									),
 									el( wp.blockEditor.ColorPalette, {
 										colors: palette,
-										value: borderColor || undefined,
-										onChange: ( val ) => props.setAttributes( { [ ATTR_BUTTON_BORDER_COLOR ]: val || '' } ),
+										value: hoverShadowColor || undefined,
+										onChange: ( val ) => props.setAttributes( { [ ATTR_HOVER_SHADOW_COLOR ]: val || '' } ),
 										disableCustomColors: false,
 										clearable: true,
 									} ),
 									el( RangeControl, {
 										label: __( 'Border width (px)', 'inblock-smooth-blocks' ),
-										value: borderWidth,
+										value: hoverShadowWidth,
 										min: 1,
 										max: 6,
-										onChange: ( val ) => props.setAttributes( { [ ATTR_BUTTON_BORDER_WIDTH ]: val } ),
-									} ),
-									el(
-										'div',
-										{ style: { marginTop: '6px', fontSize: '12px', opacity: 0.75 } },
-										__( 'Defaults to current text color if not set.', 'inblock-smooth-blocks' )
-									)
+										onChange: ( val ) => props.setAttributes( { [ ATTR_HOVER_SHADOW_WIDTH ]: val } ),
+									} )
 								)
 						)
 					)
@@ -312,19 +328,21 @@
 			if ( props.name === BUTTON_BLOCK ) {
 				const val = ( props.attributes && props.attributes[ ATTR_ARROW ] ) || '';
 				const clsArrow = arrowClass( val );
-				const borderReveal = !!( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_REVEAL ] );
+				const hoverShadow = !!( props.attributes && props.attributes[ ATTR_HOVER_SHADOW ] );
 
-				if ( !clsArrow && !borderReveal ) return el( BlockListBlock, props );
+				if ( !clsArrow && !hoverShadow ) return el( BlockListBlock, props );
 
 				const arrowColor = ( props.attributes && props.attributes[ ATTR_ARROW_COLOR ] ) || '';
-				const borderColor = ( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_COLOR ] ) || '';
+				const hoverShadowStyle = ( props.attributes && props.attributes[ ATTR_HOVER_SHADOW_STYLE ] ) || 'border';
+				const hoverShadowColor = ( props.attributes && props.attributes[ ATTR_HOVER_SHADOW_COLOR ] ) || '';
+				const hoverShadowWidth = ( props.attributes && props.attributes[ ATTR_HOVER_SHADOW_WIDTH ] ) || 2;
 
-				const borderWidth = ( props.attributes && props.attributes[ ATTR_BUTTON_BORDER_WIDTH ] ) || 1;
 				const className = [
 					props.className,
 					clsArrow,
-					borderReveal ? 'inb-border-reveal' : '',
-					borderReveal ? 'inb-border-w-' + borderWidth : '',
+					hoverShadow ? 'inb-hover-shadow' : '',
+					hoverShadow ? 'inb-hover-shadow-' + hoverShadowStyle : '',
+					hoverShadow && hoverShadowStyle === 'border' ? 'inb-hover-shadow-w-' + hoverShadowWidth : '',
 				].filter( Boolean ).join( ' ' );
 
 				const existingWrapperProps = props.wrapperProps || {};
@@ -332,7 +350,7 @@
 
 				const styleVars = Object.assign( {},
 					arrowColor ? { '--inb-arrow-color': arrowColor } : {},
-					borderColor ? { '--inb-border-color': borderColor } : {}
+					hoverShadowStyle === 'border' && hoverShadowColor ? { '--inb-hover-shadow-color': hoverShadowColor } : {}
 				);
 
 				const wrapperProps = Object.assign( {}, existingWrapperProps, {
@@ -390,25 +408,26 @@
 		if ( blockType.name === BUTTON_BLOCK ) {
 			const val = ( attributes && attributes[ ATTR_ARROW ] ) || '';
 			const clsArrow = arrowClass( val );
-			const borderReveal = !!( attributes && attributes[ ATTR_BUTTON_BORDER_REVEAL ] );
+			const hoverShadow = !!( attributes && attributes[ ATTR_HOVER_SHADOW ] );
 
-			if ( !clsArrow && !borderReveal ) return extraProps;
+			if ( !clsArrow && !hoverShadow ) return extraProps;
 
-			const borderWidth = ( attributes && attributes[ ATTR_BUTTON_BORDER_WIDTH ] ) || 1;
+			const hoverShadowStyle = ( attributes && attributes[ ATTR_HOVER_SHADOW_STYLE ] ) || 'border';
+			const hoverShadowColor = ( attributes && attributes[ ATTR_HOVER_SHADOW_COLOR ] ) || '';
+			const hoverShadowWidth = ( attributes && attributes[ ATTR_HOVER_SHADOW_WIDTH ] ) || 2;
 
 			extraProps.className = [
 				extraProps.className,
 				clsArrow,
-				borderReveal ? 'inb-border-reveal' : '',
-				borderReveal ? 'inb-border-w-' + borderWidth : '',
+				hoverShadow ? 'inb-hover-shadow' : '',
+				hoverShadow ? 'inb-hover-shadow-' + hoverShadowStyle : '',
+				hoverShadow && hoverShadowStyle === 'border' ? 'inb-hover-shadow-w-' + hoverShadowWidth : '',
 			].filter( Boolean ).join( ' ' );
 
 			const arrowColor = ( attributes && attributes[ ATTR_ARROW_COLOR ] ) || '';
-			const borderColor = ( attributes && attributes[ ATTR_BUTTON_BORDER_COLOR ] ) || '';
-
 			const styleVars = Object.assign( {},
 				arrowColor ? { '--inb-arrow-color': arrowColor } : {},
-				borderColor ? { '--inb-border-color': borderColor } : {}
+				hoverShadowStyle === 'border' && hoverShadowColor ? { '--inb-hover-shadow-color': hoverShadowColor } : {}
 			);
 			if ( Object.keys( styleVars ).length ) {
 				extraProps.style = Object.assign( {}, extraProps.style, styleVars );
