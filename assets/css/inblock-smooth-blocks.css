@@ -187,25 +187,27 @@
 }
 
 /* Border reveal (additive)
-   - Uses a pseudo-element overlay so we don't override theme box-shadow.
+   - Uses a wrapper pseudo-element so it remains visible even if themes apply
+     overflow/clip on the button link.
    - Vars:
      --inb-brd-w: 1px
      --inb-brd-c: currentColor
 */
-.wp-block-button.inb-border-reveal .wp-element-button{
+.wp-block-button.inb-border-reveal{
   position: relative;
 }
 
-.wp-block-button.inb-border-reveal .wp-element-button::after{
+.wp-block-button.inb-border-reveal::after{
   content: "";
   position: absolute;
   pointer-events: none;
 
-  /* Place the stroke centered on the edge so it reads as outside even at small widths.
-     (Half outside, half inside.) */
+  /* 50/50 stroke (half outside, half inside) */
   inset: calc(-0.5 * var(--inb-brd-w, 1px));
 
+  /* Best-effort: match the link radius */
   border-radius: inherit;
+
   border: var(--inb-brd-w, 1px) solid var(--inb-brd-c, currentColor);
 
   opacity: 0;
@@ -214,18 +216,19 @@
   transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .35s ease;
 }
 
-.wp-block-button.inb-border-reveal .wp-element-button:hover::after,
-.wp-block-button.inb-border-reveal .wp-element-button:focus-visible::after{
+/* Hover + keyboard focus */
+.wp-block-button.inb-border-reveal:hover::after,
+.wp-block-button.inb-border-reveal:focus-within::after{
   opacity: 1;
   transform: scaleX(1);
 }
 
 @media (prefers-reduced-motion: reduce){
-  .wp-block-button.inb-border-reveal .wp-element-button::after{
+  .wp-block-button.inb-border-reveal::after{
     transition: none;
   }
-  .wp-block-button.inb-border-reveal .wp-element-button:hover::after,
-  .wp-block-button.inb-border-reveal .wp-element-button:focus-visible::after{
+  .wp-block-button.inb-border-reveal:hover::after,
+  .wp-block-button.inb-border-reveal:focus-within::after{
     transform: none;
   }
 }
