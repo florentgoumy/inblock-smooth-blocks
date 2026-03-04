@@ -49,9 +49,6 @@ msgstr ""
 msgid "Defaults to the button text color if not set."
 msgstr ""
 
-msgid "Elevate"
-msgstr ""
-
 msgid "Hover shadow"
 msgstr ""
 
@@ -70,7 +67,7 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-msgid "Pressed"
+msgid "Raise"
 msgstr ""
 
 msgid "Shadow style"

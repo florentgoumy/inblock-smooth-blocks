@@ -193,8 +193,7 @@
 									value: hoverShadowStyle,
 									options: [
 										{ label: __( 'Border', 'inblock-smooth-blocks' ), value: 'border' },
-										{ label: __( 'Elevate', 'inblock-smooth-blocks' ), value: 'elevate' },
-										{ label: __( 'Pressed', 'inblock-smooth-blocks' ), value: 'pressed' },
+										{ label: __( 'Raise', 'inblock-smooth-blocks' ), value: 'raise' },
 									],
 									onChange: ( val ) => props.setAttributes( { [ ATTR_HOVER_SHADOW_STYLE ]: val } ),
 								} ),

@@ -216,14 +216,23 @@
 .wp-block-button.inb-hover-shadow-w-5{ --inb-hover-shadow-width: 5px; }
 .wp-block-button.inb-hover-shadow-w-6{ --inb-hover-shadow-width: 6px; }
 
-/* Elevate */
-.wp-block-button.inb-hover-shadow-elevate .wp-element-button:hover,
-.wp-block-button.inb-hover-shadow-elevate .wp-element-button:focus-visible{
-  box-shadow: 0 10px 30px rgba(0,0,0,.18);
+/* Raise */
+.wp-block-button.inb-hover-shadow-raise .wp-element-button{
+  transition: transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s cubic-bezier(.4,0,.2,1);
 }
 
-/* Pressed */
-.wp-block-button.inb-hover-shadow-pressed .wp-element-button:hover,
-.wp-block-button.inb-hover-shadow-pressed .wp-element-button:focus-visible{
-  box-shadow: 0 4px 14px rgba(0,0,0,.22);
+.wp-block-button.inb-hover-shadow-raise .wp-element-button:hover,
+.wp-block-button.inb-hover-shadow-raise .wp-element-button:focus-visible{
+  box-shadow: 0 10px 20px -8px rgba(0,0,0,.25);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .wp-block-button.inb-hover-shadow-raise .wp-element-button{
+    transition: none;
+  }
+  .wp-block-button.inb-hover-shadow-raise .wp-element-button:hover,
+  .wp-block-button.inb-hover-shadow-raise .wp-element-button:focus-visible{
+    transform: none;
+  }
 }
