@@ -393,6 +393,8 @@
 
 			if ( !clsArrow && !borderReveal ) return extraProps;
 
+			const borderWidth = ( attributes && attributes[ ATTR_BUTTON_BORDER_WIDTH ] ) || 1;
+
 			extraProps.className = [
 				extraProps.className,
 				clsArrow,
@@ -403,7 +405,6 @@
 			const arrowColor = ( attributes && attributes[ ATTR_ARROW_COLOR ] ) || '';
 			const borderColor = ( attributes && attributes[ ATTR_BUTTON_BORDER_COLOR ] ) || '';
 
-			const borderWidth = ( attributes && attributes[ ATTR_BUTTON_BORDER_WIDTH ] ) || 1;
 			const styleVars = Object.assign( {},
 				arrowColor ? { '--inb-arrow-color': arrowColor } : {},
 				borderColor ? { '--inb-border-color': borderColor } : {}
