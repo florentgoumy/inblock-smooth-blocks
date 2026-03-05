@@ -103,7 +103,6 @@
 			return settings;
 		}
 
-
 		return settings;
 	}
 	addFilter( 'blocks.registerBlockType', 'inblock/smooth-blocks/add-attrs', addAttributes );
@@ -453,7 +452,6 @@
 			extraProps.className = [ extraProps.className, 'inb-smooth-rotation' ].filter( Boolean ).join( ' ' );
 			return extraProps;
 		}
-
 
 		return extraProps;
 	}
