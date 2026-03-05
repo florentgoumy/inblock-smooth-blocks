@@ -4,9 +4,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Adds a subtle animated icon."
-msgstr ""
-
 msgid "Animated icon"
 msgstr ""
 
@@ -14,9 +11,6 @@ msgid "Animates an underline on links inside this group."
 msgstr ""
 
 msgid "Animates the submenu caret rotation instead of flipping instantly."
-msgstr ""
-
-msgid "Applies a shadow effect on hover/focus."
 msgstr ""
 
 msgid "Arrow down (↓)"
@@ -43,19 +37,10 @@ msgstr ""
 msgid "Border width (px)"
 msgstr ""
 
-msgid "Defaults to current text color if not set."
-msgstr ""
-
-msgid "Defaults to the button text color if not set."
-msgstr ""
-
 msgid "Hover shadow"
 msgstr ""
 
 msgid "Icon color"
-msgstr ""
-
-msgid "If disabled, removes the underline until reveal."
 msgstr ""
 
 msgid "Inblock effects"

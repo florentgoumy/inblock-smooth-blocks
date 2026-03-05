@@ -143,7 +143,7 @@
 									// If user disables arrow, also clear icon color (optional but clean)
 									if ( !val ) props.setAttributes( { [ ATTR_ARROW_COLOR ]: '' } );
 								},
-								help: __( 'Adds a subtle animated icon.', 'inblock-smooth-blocks' ),
+								help: undefined,
 							} ),
 
 							// Show color picker only when an icon is selected
@@ -163,11 +163,7 @@
 										disableCustomColors: false,
 										clearable: true,
 									} ),
-									el(
-										'div',
-										{ style: { marginTop: '6px', fontSize: '12px', opacity: 0.75 } },
-										__( 'Defaults to the button text color if not set.', 'inblock-smooth-blocks' )
-									)
+
 								)
 							,
 
@@ -184,7 +180,7 @@
 										} );
 									}
 								},
-								help: __( 'Applies a shadow effect on hover/focus.', 'inblock-smooth-blocks' ),
+								help: undefined,
 							} ),
 
 							hoverShadow &&
@@ -281,7 +277,6 @@
 									label: __( 'Keep default underline', 'inblock-smooth-blocks' ),
 									checked: underlineKeepDecoration,
 									onChange: ( val ) => props.setAttributes( { [ ATTR_UNDERLINE_KEEP_DECORATION ]: !!val } ),
-									help: __( 'If disabled, removes the underline until reveal.', 'inblock-smooth-blocks' ),
 								} ),
 
 							underlineReveal &&
@@ -300,11 +295,6 @@
 										disableCustomColors: false,
 										clearable: true,
 									} ),
-									el(
-										'div',
-										{ style: { marginTop: '6px', fontSize: '12px', opacity: 0.75 } },
-										__( 'Defaults to current text color if not set.', 'inblock-smooth-blocks' )
-									)
 								)
 						)
 					)
