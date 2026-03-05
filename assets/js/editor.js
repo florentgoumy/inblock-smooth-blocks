@@ -13,7 +13,6 @@
 	const BUTTON_BLOCK = 'core/button';
 	const NAV_BLOCK = 'core/navigation';
 	const GROUP_BLOCK = 'core/group';
-	// const IMAGE_BLOCK = 'core/image';
 
 	// Attributes
 	const ATTR_ARROW = 'inbArrow';
@@ -29,7 +28,6 @@
 	const ATTR_UNDERLINE_COLOR = 'inbUnderlineColor';
 	const ATTR_UNDERLINE_KEEP_DECORATION = 'inbUnderlineKeepDecoration';
 
-	// const ATTR_IMAGE_SUBTLE_SCALE = 'inbImageSubtleScale';
 
 	// UI options
 	const ARROW_OPTIONS = [
