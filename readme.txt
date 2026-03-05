@@ -19,7 +19,8 @@ Unlike block styles, these effects are additive. You can keep existing styles (F
 Current features:
 
 Button block:
-• Animated icon (Arrow right →, Arrow left ←, Arrow external ↗)
+• Animated icons (Arrow right →, Arrow left ←, Arrow up ↑, Arrow down ↓, Arrow external ↗)
+• Hover shadow (Border, Raise)
 
 Navigation block:
 • Smooth submenu caret rotation
@@ -66,10 +67,12 @@ Yes. The plugin only adds classes and CSS micro-interactions without modifying t
 == Changelog ==
 
 = 0.8.0 =
-- Accessibility: keep a visible underline by default for Underline Reveal.
-- Navigation: inject smooth-rotation class via `render_block_core/navigation`.
-- Button: expose Arrow up/down options in the editor selector.
-- Chore: remove temporary file `assets/js/editortmp.js`.
+- Button: Animated icons (incl. up/down) + optional icon color.
+- Button: Hover shadow (Border / Raise).
+- Navigation: smooth submenu caret rotation injected via `render_block_core/navigation`.
+- Group: underline reveal improvements (accessibility + color + option to keep underline).
+- i18n: add `languages/` + translation template.
+- Hardening/cleanup: remove temporary files, safer markup injection, various fixes.
 
 = 0.7.0 =
 Added Arrow up and Arrow down animated icons for Button blocks.
