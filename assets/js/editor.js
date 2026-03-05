@@ -143,7 +143,6 @@
 									// If user disables arrow, also clear icon color (optional but clean)
 									if ( !val ) props.setAttributes( { [ ATTR_ARROW_COLOR ]: '' } );
 								},
-								help: undefined,
 							} ),
 
 							// Show color picker only when an icon is selected
@@ -180,7 +179,6 @@
 										} );
 									}
 								},
-								help: undefined,
 							} ),
 
 							hoverShadow &&
