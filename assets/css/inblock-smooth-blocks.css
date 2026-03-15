@@ -202,8 +202,10 @@
 
 /* Border-style shadow (stroke) */
 .wp-block-button.inb-hover-shadow-border .wp-element-button:hover,
-.wp-block-button.inb-hover-shadow-border .wp-element-button:focus-visible{
-  box-shadow: 0 0 0 var(--inb-hover-shadow-width, 2px) var(--inb-hover-shadow-color, currentColor);
+.wp-block-button.inb-hover-shadow-border .wp-element-button:focus-visible,
+.wp-block-button.inb-hover-shadow-border .wp-block-button__link:hover,
+.wp-block-button.inb-hover-shadow-border .wp-block-button__link:focus-visible {
+  box-shadow: 0 0 0 var(--inb-hover-shadow-width, 2px) var(--inb-hover-shadow-color, currentColor) !important;
 }
 
 /* Width mapping via classes (avoid inline vars like "border-width") */
