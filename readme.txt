@@ -4,7 +4,7 @@ Tags: gutenberg, blocks, button, navigation, animation, micro-interactions, ui
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.8.0
+Stable tag: 0.8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,9 @@ Yes. Animations respect the `prefers-reduced-motion` setting.
 Yes. The plugin only adds classes and CSS micro-interactions without modifying theme structure.
 
 == Changelog ==
+
+= 0.8.1 =
+Added screenshots.
 
 = 0.8.0 =
 - Button: Animated icons (incl. up/down) + optional icon color.
