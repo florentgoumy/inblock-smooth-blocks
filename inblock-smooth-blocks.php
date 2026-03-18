@@ -26,7 +26,6 @@ final class Inblock_Smooth_Blocks {
 	const HANDLE_EDITOR = 'inblock-smooth-blocks-editor';
 
 	public static function init(): void {
-		add_action( 'init', [ __CLASS__, 'load_textdomain' ] );
 		add_action( 'init', [ __CLASS__, 'register_assets' ] );
 
 		// Load CSS on both frontend and editor
