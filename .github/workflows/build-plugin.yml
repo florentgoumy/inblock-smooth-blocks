@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Prepare build directory
         run: |
@@ -42,7 +42,7 @@ jobs:
           zip -r "${PLUGIN_SLUG}.zip" "${PLUGIN_SLUG}"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: inblock-smooth-blocks-zip
           path: build/inblock-smooth-blocks.zip
