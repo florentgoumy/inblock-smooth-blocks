@@ -1,6 +1,6 @@
 === Inblock Smooth Blocks ===
 Contributors: inblock
-Tags: gutenberg, blocks, button, navigation, animation, micro-interactions, ui
+Tags: gutenberg, blocks, animation, micro-interactions
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
