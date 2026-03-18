@@ -68,6 +68,7 @@ Yes. The plugin only adds classes and CSS micro-interactions without modifying t
 
 = 0.8.1 =
 Added screenshots.
+Tested up to 6.9.
 
 = 0.8.0 =
 - Button: Animated icons (incl. up/down) + optional icon color.
