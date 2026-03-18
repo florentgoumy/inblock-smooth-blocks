@@ -2,7 +2,7 @@
 Contributors: inblock
 Tags: gutenberg, blocks, button, navigation, animation, micro-interactions, ui
 Requires at least: 6.0
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.4
 Stable tag: 0.8.1
 License: GPLv2 or later
