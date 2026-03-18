@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Inblock Smooth Blocks
  * Description: Adds elegant micro-interactions to Gutenberg blocks (animated icons for Buttons, smooth caret rotation for Navigation, underline reveal for Groups).
- * Version: 0.8.0
+ * Version: 0.8.1
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: Inblock
