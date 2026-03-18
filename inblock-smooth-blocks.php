@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'Inblock_Smooth_Blocks' ) ) :
 
 final class Inblock_Smooth_Blocks {
-	const VERSION = '0.8.0';
+	const VERSION = '0.8.1';
 
 	const HANDLE_STYLE  = 'inblock-smooth-blocks';
 	const HANDLE_EDITOR = 'inblock-smooth-blocks-editor';
@@ -37,10 +37,6 @@ final class Inblock_Smooth_Blocks {
 
 		// Ensure Navigation class exists in FRONTEND rendered HTML (server-side injection)
 		add_filter( 'render_block_core/navigation', [ __CLASS__, 'inject_navigation_class' ], 10, 2 );
-	}
-
-	public static function load_textdomain(): void {
-		load_plugin_textdomain( 'inblock-smooth-blocks', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 
 	public static function register_assets(): void {
