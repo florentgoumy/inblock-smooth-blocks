@@ -28,21 +28,12 @@ jobs:
             --exclude=".git/" \
             --exclude=".github/" \
             --exclude=".gitignore" \
-            --exclude=".distignore" \
             --exclude="node_modules/" \
-            --exclude="vendor/" \
-            --exclude="tests/" \
-            --exclude="scripts/" \
             --exclude="build/" \
             --exclude=".DS_Store"
 
-      - name: Create zip
-        run: |
-          cd build
-          zip -r "${PLUGIN_SLUG}.zip" "${PLUGIN_SLUG}"
-
-      - name: Upload artifact
+      - name: Upload installable plugin archive
         uses: actions/upload-artifact@v5
         with:
-          name: inblock-smooth-blocks-zip
-          path: build/inblock-smooth-blocks.zip
+          name: inblock-smooth-blocks
+          path: build/inblock-smooth-blocks/
