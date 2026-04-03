@@ -1,5 +1,5 @@
 === Inblock Smooth Blocks ===
-Contributors: inblock
+Contributors: florentgoumy
 Tags: gutenberg, blocks, animation, micro-interactions
 Requires at least: 6.0
 Tested up to: 6.9
