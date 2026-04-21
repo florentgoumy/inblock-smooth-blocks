@@ -65,6 +65,12 @@ Yes. Animations respect the `prefers-reduced-motion` setting.
 = Does it work with custom themes? =
 Yes. The plugin only adds classes and CSS micro-interactions without modifying theme structure.
 
+== Screenshots ==
+
+1. Inblock Effects panel in the Style tab, with an Animated Icon effect applied to a Button block.
+2. Hover Shadow effect on a Button block.
+3. Underline Reveal effect on a Group block.
+
 == Changelog ==
 
 = 0.8.1 =
